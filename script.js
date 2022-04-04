@@ -16,7 +16,7 @@ function showAllSmartphone() {
                                 onclick="showEditSmartphone(${data[i].id})"
                                 >Edit</button>
                             </td>
-                            <td><button type="button" class="btn btn-primary" 
+                            <td><button type="button" class="btn btn-danger" 
                                 data-bs-toggle="modal" data-bs-target="#smartphoneModal"
                                 onclick="showDeleteSmartphone(${data[i].id})"
                                 >Delete</button>
@@ -24,7 +24,6 @@ function showAllSmartphone() {
                             </tr>`
             }
             $("#smartphoneList__table-body").html(content);
-
 
         }
     })
@@ -37,15 +36,20 @@ function showEditSmartphone(id) {
         url: SMARTPHONES_WEBSERVICE_ROOT + "/" + id,
         success: function (data) {
 
+            // fill inputs with object fields
             $("#modalIntput__producer").val(data.producer).prop('disabled', false);
             $("#modalIntput__model").val(data.model).prop('disabled', false);
             $("#modalIntput__price").val(data.price).prop('disabled', false);
 
+            // re-assign modalButton__ok click event
+            // change visual
             $("#modalButton__ok").off('click').attr('class', 'btn btn-primary').html("Save changes")
                 .click(function () {
                     editSmartphone(id);
                 });
 
+            // change modalTittle
+            $("#modalTitle").html("Edit smartphone");
         },
         error: function () {
             alert("error!");
@@ -107,6 +111,8 @@ function showDeleteSmartphone(id){
                     deleteSmartphone(id);
                 });
 
+            // change modalTittle
+            $("#modalTitle").html("Delete smartphone");
         }
     });
 }
@@ -124,6 +130,8 @@ function showAddNewSmartphone() {
             addNewSmartPhone();
         });
 
+    // change modalTittle
+    $("#modalTitle").html("Add new smartphone");
 }
 
 function addNewSmartPhone() {
