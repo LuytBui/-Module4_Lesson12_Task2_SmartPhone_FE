@@ -12,26 +12,8 @@
 
 </head>
 <body>
-<form id="add-smartphone">
-    <table>
-        <tr>
-            <td>Producer:</td>
-            <td><input type="text" id="producer" placeholder="producer"></td>
-        </tr>
-        <tr>
-            <td>Model:</td>
-            <td><input type="text" id="model" placeholder="model"></td>
-        </tr>
-        <tr>
-            <td>Price:</td>
-            <td><input type="text" id="price" placeholder="price"></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="button" id="btn-action"></td>
-        </tr>
-    </table>
-</form>
+<button class="btn btn-success"
+        data-bs-toggle="modal" data-bs-target="#smartphoneModal" id="btnAdd">Add</button>
 <h1>Smartphone List</h1>
 <table id="smartphoneList">
     <thead>
@@ -45,6 +27,38 @@
 
     </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="smartphoneModal" tabindex="-1" aria-labelledby="smartphoneModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb3">
+                    <label for="modalIntput__producer" class="form-label">Producer</label>
+                    <input type="text" id="modalIntput__producer">
+                </div>
+                <div class="mb3">
+                    <label for="modalIntput__model" class="form-label">Model</label>
+                    <input type="text" id="modalIntput__model">
+                </div>
+                <div class="mb3">
+                    <label for="modalIntput__price" class="form-label">Price</label>
+                    <input type="number" id="modalIntput__price">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalButton__cancel">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="modalButton__ok">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end Modal -->
+
 <script src="script.js"></script>
 </body>
 </html>

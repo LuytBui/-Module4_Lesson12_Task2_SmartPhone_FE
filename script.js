@@ -11,15 +11,20 @@ function showAllSmartphone() {
                             <td>${data[i].producer}</td>
                             <td>${data[i].model}</td>
                             <td>${data[i].price}</td>
-                            <td><button onclick="showEditSmartphone(${data[i].id})">Edit</button></td>
-                            <td><button onclick="deleteSmartphone(${data[i].id})">Delete</button></td>
+                            <td><button type="button" class="btn btn-primary" 
+                                data-bs-toggle="modal" data-bs-target="#smartphoneModal"
+                                onclick="showEditSmartphone(${data[i].id})"
+                                >Edit</button>
+                            </td>
+                            <td><button type="button" class="btn btn-primary" 
+                                data-bs-toggle="modal" data-bs-target="#smartphoneModal"
+                                onclick="showDeleteSmartphone(${data[i].id})"
+                                >Delete</button>
+                            </td>
                             </tr>`
             }
             $("#smartphoneList__table-body").html(content);
 
-            let btn = $("#btn-action");
-            btn.val("Add new smartphone");
-            btn.click(addNewSmartPhone);
 
         }
     })
@@ -30,25 +35,28 @@ function showEditSmartphone(id) {
     $.ajax({
         type: "GET",
         url: SMARTPHONES_WEBSERVICE_ROOT + "/" + id,
-        success: function (data){
+        success: function (data) {
 
-            $("#producer").val(data.producer);
-            $("#model").val(data.model);
-            $("#price").val(data.price);
+            $("#modalIntput__producer").val(data.producer);
+            $("#modalIntput__model").val(data.model);
+            $("#modalIntput__price").val(data.price);
 
-            let btn = $("#btn-action");
-            btn.val("Edit this smartphone");
-            btn.click(function (){
-                doEditSmartphone(id);
-            });
+            $("#modalButton__ok").off('click')
+                .click(function () {
+                    editSmartphone(id);
+                });
+
+        },
+        error: function () {
+            alert("error!");
         }
     });
 }
 
-function doEditSmartphone(id) {
-    let producer = $('#producer').val();
-    let model = $('#model').val();
-    let price = $('#price').val();
+function editSmartphone(id) {
+    let producer = $('#modalIntput__producer').val();
+    let model = $('#modalIntput__model').val();
+    let price = $('#modalIntput__priceprice').val();
     let newSmartphone = {
         id: id,
         producer: producer,
@@ -63,28 +71,44 @@ function doEditSmartphone(id) {
         },
         type: "PUT",
         data: JSON.stringify(newSmartphone),
-        url: SMARTPHONES_WEBSERVICE_ROOT,
-        success: function (){
-            showAllSmartphone;
-
-            $('#producer').val("");
-            $('#model').val("");
-             $('#price').val("");
-
-            let btn = $("#btn-action");
-            btn.val("Add new smartphone");
-            btn.click(addNewSmartPhone);
+        url: SMARTPHONES_WEBSERVICE_ROOT + "/" + id,
+        success: function () {
+            showAllSmartphone();
         }
 
     });
 
 }
 
+
+function deleteSmartphone(id) {
+    $.ajax({
+        type: "DELETE",
+        url: SMARTPHONES_WEBSERVICE_ROOT + "/" + id,
+        success: showAllSmartphone
+    });
+}
+
+function showAddNewSmartphone() {
+
+    // clear all input values
+    $('#modalIntput__producer').val("");
+    $('#modalIntput__model').val("");
+    $('#modalIntput__price').val("");
+
+    // re-assign modalButton__ok 's click event
+    $("#modalButton__ok").off('click')
+        .click(function () {
+            addNewSmartPhone();
+        });
+
+}
+
 function addNewSmartPhone() {
     //lay du lieu
-    let producer = $('#producer').val();
-    let model = $('#model').val();
-    let price = $('#price').val();
+    let producer = $('#modalIntput__producer').val();
+    let model = $('#modalIntput__model').val();
+    let price = $('#modalIntput__price').val();
     let newSmartphone = {
         producer: producer,
         model: model,
@@ -107,14 +131,10 @@ function addNewSmartPhone() {
     event.preventDefault();
 }
 
-function deleteSmartphone(id) {
-    $.ajax({
-        type: "DELETE",
-        url: SMARTPHONES_WEBSERVICE_ROOT + "/" + id,
-        success: showAllSmartphone
-    });
-}
-
 $(document).ready(function () {
     showAllSmartphone();
+
+    $("#btnAdd").click(function () {
+        showAddNewSmartphone();
+    });
 });
