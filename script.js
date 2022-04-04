@@ -37,11 +37,11 @@ function showEditSmartphone(id) {
         url: SMARTPHONES_WEBSERVICE_ROOT + "/" + id,
         success: function (data) {
 
-            $("#modalIntput__producer").val(data.producer);
-            $("#modalIntput__model").val(data.model);
-            $("#modalIntput__price").val(data.price);
+            $("#modalIntput__producer").val(data.producer).prop('disabled', false);
+            $("#modalIntput__model").val(data.model).prop('disabled', false);
+            $("#modalIntput__price").val(data.price).prop('disabled', false);
 
-            $("#modalButton__ok").off('click')
+            $("#modalButton__ok").off('click').attr('class', 'btn btn-primary').html("Save changes")
                 .click(function () {
                     editSmartphone(id);
                 });
@@ -56,7 +56,7 @@ function showEditSmartphone(id) {
 function editSmartphone(id) {
     let producer = $('#modalIntput__producer').val();
     let model = $('#modalIntput__model').val();
-    let price = $('#modalIntput__priceprice').val();
+    let price = $('#modalIntput__price').val();
     let newSmartphone = {
         id: id,
         producer: producer,
@@ -85,19 +85,41 @@ function deleteSmartphone(id) {
     $.ajax({
         type: "DELETE",
         url: SMARTPHONES_WEBSERVICE_ROOT + "/" + id,
-        success: showAllSmartphone
+        success: function(){
+            showAllSmartphone();
+        }
+    });
+}
+
+function showDeleteSmartphone(id){
+    $.ajax({
+        type: "Get",
+        url: SMARTPHONES_WEBSERVICE_ROOT + "/" + id,
+        success: function (data) {
+            $('#modalIntput__producer').val(data.producer).prop('disabled', true);
+            $('#modalIntput__model').val(data.model).prop('disabled', true);
+            $('#modalIntput__price').val(data.price).prop('disabled', true);
+
+            // re-assign modalButton__ok 's click event
+            // and change btn color
+            $("#modalButton__ok").off('click').attr('class', 'btn btn-danger').html("Delete this smartphone")
+                .click(function () {
+                    deleteSmartphone(id);
+                });
+
+        }
     });
 }
 
 function showAddNewSmartphone() {
 
     // clear all input values
-    $('#modalIntput__producer').val("");
-    $('#modalIntput__model').val("");
-    $('#modalIntput__price').val("");
+    $('#modalIntput__producer').val("").prop('disabled', false);
+    $('#modalIntput__model').val("").prop('disabled', false);
+    $('#modalIntput__price').val("").prop('disabled', false);
 
-    // re-assign modalButton__ok 's click event
-    $("#modalButton__ok").off('click')
+    // re-assign modalButton__ok 's click event and visual
+    $("#modalButton__ok").off('click').attr('class', 'btn btn-success').html("Add new smartphone")
         .click(function () {
             addNewSmartPhone();
         });
