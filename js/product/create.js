@@ -45,7 +45,8 @@ function addNewSmartPhone() {
     $.ajax({
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': currentUser.token
         },
         type: "POST",
         data: JSON.stringify(newProduct),
@@ -54,6 +55,5 @@ function addNewSmartPhone() {
         //xử lý khi thành công
         success: showAllProduct
     });
-    //chặn sự kiện mặc định của thẻ
-    event.preventDefault();
+
 }

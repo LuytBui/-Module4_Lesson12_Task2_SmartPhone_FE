@@ -1,10 +1,8 @@
-
-// chuan bi xoa file nay
-
-
-
 function deleteProduct(id) {
     $.ajax({
+        headers: {
+            'Authorization': currentUser.token
+        },
         type: "DELETE",
         url: PRODUCTS_WEBSERVICE_ROOT + "/" + id,
         success: function () {
@@ -15,6 +13,9 @@ function deleteProduct(id) {
 
 function showDeleteProduct(id) {
     $.ajax({
+        headers: {
+            'Authorization': currentUser.token
+        },
         type: "GET",
         url: PRODUCTS_WEBSERVICE_ROOT + "/" + id,
         success: function (data) {
@@ -41,6 +42,3 @@ function showDeleteProduct(id) {
         }
     });
 }
-
-
-

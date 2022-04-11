@@ -1,7 +1,12 @@
-
 function showEditProduct(id) {
+    // clear inputs
+    $("#modalInput__imageFilename--hidden").val("");
 
     $.ajax({
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': currentUser.token
+        },
         type: "GET",
         url: PRODUCTS_WEBSERVICE_ROOT + "/" + id,
         success: function (data) {
@@ -52,7 +57,8 @@ function editProduct(id) {
     $.ajax({
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': currentUser.token
         },
         type: "PUT",
         data: JSON.stringify(newProduct),

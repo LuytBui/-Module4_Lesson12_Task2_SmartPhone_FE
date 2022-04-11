@@ -4,6 +4,9 @@ function uploadFile() {
     let formData = new FormData();
     formData.append("image", file);
     $.ajax({
+        headers: {
+            'Authorization': currentUser.token
+        },
         url: FILES_WEBSERVICE_ROOT,
         type: "POST",
         enctype: 'multipart/form-data',
